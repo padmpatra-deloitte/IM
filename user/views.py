@@ -1,13 +1,13 @@
 from rest_framework import generics
 from rest_framework.decorators import permission_classes
-from rest_framework.permissions import AllowAny
+from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.response import Response
 from django.contrib.auth import get_user_model
 from rest_framework.views import APIView
 from django.shortcuts import get_object_or_404
 
 from .serializers import LoginSerializer, RegisterSerializer, UserSerializer
-from .utility import create_token
+from .utility import create_token, generate_access_token
 
 User = get_user_model()
 
@@ -23,11 +23,10 @@ class LoginView(generics.CreateAPIView):
             return Response({"error": serializer.errors, "data": None}, status=400)
         if req.data["email"] is not None or req.data['email'] != "":
             user = generics.get_object_or_404(User, email=req.data["email"])
-            token = create_token(username=user.username,
-                                 password=req.data["password"])
+            token = generate_access_token(user)
             if token:
                 res = {
-                    "token": token.key,
+                    "token": token,
                     "user": {
                         "id": user.id,
                         "first_name": user.first_name,
@@ -81,6 +80,7 @@ class SpecificUserView(APIView):
         return Response(serializer.data, status=201)
 
 
+@permission_classes((IsAuthenticated,))
 class UserView(APIView):
     def get(self, req):
         user = User.objects.all()
