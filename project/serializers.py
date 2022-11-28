@@ -4,7 +4,8 @@ from .models import Project, Issue
 class ProjectSerializer(serializers.ModelSerializer):
     class Meta:
         model = Project
-        fields= ['id', 'title']
+        fields= ['id', 'title', 'issues']
+        depth = 1
 
   
 class IssueSerializer(serializers.ModelSerializer):

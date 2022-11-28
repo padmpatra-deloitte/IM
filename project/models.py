@@ -23,7 +23,7 @@ class Issue(models.Model):
 
     title = models.CharField(max_length=150)
     desc = models.TextField()
-    belong_to = models.ForeignKey(Project, on_delete=models.CASCADE)
+    belong_to = models.ForeignKey(Project, on_delete=models.CASCADE, related_name="issues")
     # type  = models.CharField(max_length=1, choices=TYPE_CHOICES, default=TYPE_BUG)
     created_at = models.DateField(auto_now_add=True)
     updated_at = models.DateField(auto_now=True)
