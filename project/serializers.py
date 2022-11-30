@@ -5,9 +5,10 @@ from .models import Project, Issue
 class ProjectSerializer(serializers.ModelSerializer):
     class Meta:
         model = Project
-        fields = ['id', 'title', 'issues', 'creator']
+        fields = ['id', 'title', 'issues',
+                  'creator', 'created_at', 'updated_at']
         optional_fields = ('creator',)
-        read_only_fields = ('issues',)
+        read_only_fields = ('issues', 'created_at', 'updated_at',)
 
 
 class IssueSerializer(serializers.ModelSerializer):
@@ -15,5 +16,4 @@ class IssueSerializer(serializers.ModelSerializer):
         model = Issue
         fields = ['id', 'title', 'desc', 'belong_to', 'reporter', 'assignee']
         write_once_fields = ('reporter')
-        required_fields=('belong_to')
-
+        required_fields = ('belong_to')

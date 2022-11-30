@@ -1,12 +1,14 @@
 from django.db import models
-from django.contrib.auth import get_user_model 
+from django.contrib.auth import get_user_model
 
 # Create your models here.
 User = get_user_model()
 
+
 class Project(models.Model):
-    title = models.CharField(max_length=150)
-    creator = models.ForeignKey(User, on_delete=models.PROTECT, related_name='projects', default=None)
+    title = models.CharField(max_length=150, unique=True)
+    creator = models.ForeignKey(
+        User, on_delete=models.PROTECT, related_name='projects', default=None)
     created_at = models.DateField(auto_now_add=True)
     updated_at = models.DateField(auto_now=True)
 
@@ -28,9 +30,12 @@ class Issue(models.Model):
 
     title = models.CharField(max_length=150)
     desc = models.TextField()
-    belong_to = models.ForeignKey(Project, on_delete=models.CASCADE, related_name="issues")
-    reporter = models.ForeignKey(User, on_delete=models.PROTECT, related_name='reporter', default=None )
-    assignee = models.ForeignKey(User, on_delete=models.PROTECT, related_name='assignee', null=True)
+    belong_to = models.ForeignKey(
+        Project, on_delete=models.CASCADE, related_name="issues")
+    reporter = models.ForeignKey(
+        User, on_delete=models.PROTECT, related_name='reporter', default=None)
+    assignee = models.ForeignKey(
+        User, on_delete=models.PROTECT, related_name='assignee', null=True)
     # type  = models.CharField(max_length=1, choices=TYPE_CHOICES, default=TYPE_BUG)
     created_at = models.DateField(auto_now_add=True)
     updated_at = models.DateField(auto_now=True)
