@@ -40,7 +40,8 @@ INSTALLED_APPS = [
     "rest_framework",
     "rest_framework.authtoken",
     "user",
-    "project"
+    "project",
+    'tag'
 ]
 
 MIDDLEWARE = [
@@ -131,7 +132,7 @@ REST_FRAMEWORK = {
         'user.authentication.SafeJWTAuthentication'
     ],
     'DEFAULT_PERMISSION_CLASSES': (
-        'rest_framework.permissions.IsAuthenticated',
+        # 'rest_framework.permissions.IsAuthenticated',
         'rest_framework.permissions.AllowAny',
     ),
     'DEFAULT_RENDERER_CLASSES': (

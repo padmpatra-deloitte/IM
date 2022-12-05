@@ -14,6 +14,6 @@ class ProjectSerializer(serializers.ModelSerializer):
 class IssueSerializer(serializers.ModelSerializer):
     class Meta:
         model = Issue
-        fields = ['id', 'title', 'desc', 'belong_to', 'reporter', 'assignee']
-        write_once_fields = ('reporter')
+        fields = ['id', 'title', 'desc', 'belong_to', 'reporter', 'assignee', 'type']
+        write_once_fields = ('reporter', 'type')
         required_fields = ('belong_to')

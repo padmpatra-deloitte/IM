@@ -4,15 +4,13 @@ from rest_framework import status
 from .models import Project, Issue
 from .serializers import ProjectSerializer, IssueSerializer
 from rest_framework.viewsets import ModelViewSet
-from rest_framework.permissions import IsAuthenticated, AllowAny
+from rest_framework.permissions import IsAuthenticated
 from django.contrib.auth import get_user_model
-from django.db.models import Q, F
-
 
 User = get_user_model()
 
 
-@permission_classes((IsAuthenticated,))
+# @permission_classes((IsAuthenticated,))
 class ProjectViewSet(ModelViewSet):
     queryset = Project.objects.all()
     serializer_class = ProjectSerializer
@@ -52,7 +50,7 @@ class ProjectViewSet(ModelViewSet):
         
 
 
-@permission_classes((IsAuthenticated,))
+# @permission_classes((IsAuthenticated,))
 class IssueViewSet(ModelViewSet):
     queryset = Issue.objects.select_related('belong_to').all()
     serializer_class = IssueSerializer
@@ -66,9 +64,10 @@ class IssueViewSet(ModelViewSet):
         return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
 
     @action(detail=False, methods=['get'], url_path=r'get_by_title')
-    def get_project_by_title(self, request):
+    def get_issues_by_title(self, request):
         title = request.query_params.get('title')
         issue = self.get_queryset().filter(title=title).first()
         serializer = self.get_serializer(issue)
         serializer.is_valid(raise_exception=True)
         return Response(serializer.data)
+

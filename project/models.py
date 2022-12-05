@@ -36,7 +36,8 @@ class Issue(models.Model):
         User, on_delete=models.PROTECT, related_name='reporter', default=None)
     assignee = models.ForeignKey(
         User, on_delete=models.PROTECT, related_name='assignee', null=True)
-    # type  = models.CharField(max_length=1, choices=TYPE_CHOICES, default=TYPE_BUG)
+    type = models.ForeignKey(
+        'tag.Tag', related_name='tagged_issues', on_delete=models.PROTECT, null=True)
     created_at = models.DateField(auto_now_add=True)
     updated_at = models.DateField(auto_now=True)
 
